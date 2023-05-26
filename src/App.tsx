@@ -3,7 +3,19 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import Login from './pages/global/Login'
 import { Register } from './pages/global/Register'
+import { Root } from './components/global/Root'
 import './App.css'
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path='/' element={<Root />}>
+      <Route index path='/dashboard' element={<Login />} />
+      {/* <Route path='/login' element={<Login />} /> */}
+      <Route path='/registrar' element={<Register />} />
+    </Route>
+  )
+)
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,8 +23,6 @@ function App() {
   return (
     <>
       <div>
-        <Register />
-        <Login />
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -32,6 +42,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+<RouterProvider router={router} />
     </>
   )
 }
