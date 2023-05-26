@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { LOGIN } from '../../queries/global/loginUser.mutation'
+import { LOGIN } from "../../queries/global/loginUser.mutation";
 
 function Login() {
-  const [ login, setLogin ] = useState({ email: "", password: "" });
-
+  const [login, setLogin] = useState({ email: "", password: "" });
   const [loginHandler, { data, loading, error }] = useMutation(LOGIN);
 
   if (data) {
