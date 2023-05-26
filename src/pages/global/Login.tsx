@@ -1,21 +1,11 @@
 import { useState } from "react";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import { LOGIN } from '../../queries/global/loginUser.mutation'
 
 function Login() {
-  const [login, setLogin] = useState({ email: "", password: "" });
+  const [ login, setLogin ] = useState({ email: "", password: "" });
 
-  const LOGIN = gql`
-    mutation LoginUser($loginInput: LoginInput) {
-      loginUser(loginInput: $loginInput) {
-        name
-        email
-        token
-      }
-    }
-  `;
   const [loginHandler, { data, loading, error }] = useMutation(LOGIN);
-  // const { loading, error, data } = useQuery(GET_DEVOLUTIONS)
-  console.log(loading, error, data);
 
   if (data) {
     localStorage.setItem("apopyToken", JSON.stringify(data.loginUser.token));
@@ -24,8 +14,6 @@ function Login() {
             ${localStorage.getItem("apopyToken")}
         `);
   }
-
-  console.log("21233");
 
   return (
     <div>
