@@ -1,15 +1,38 @@
+<<<<<<< .merge_file_CePiQO
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import Login from './pages/global/Login'
 import { Register } from './pages/global/Register'
 import './App.css'
+=======
+import Login from "./pages/global/Login";
+import { Register } from "./pages/global/Register";
+import { Root } from "./components/global/Root";
+import { Products } from "./pages/stock/Products";
+import "./App.css";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+>>>>>>> .merge_file_10daEz
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Root />}>
+      <Route path="/login" element={<Login />} />
+      <Route path="/registrar" element={<Register />} />
+      <Route path="/estoque/produto" element={<Products />} />
+    </Route>
+  )
+);
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
+<<<<<<< .merge_file_CePiQO
       <div>
         <Register />
         <Login />
@@ -32,8 +55,12 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+=======
+      <RouterProvider router={router} />
+      <h1>dashboard</h1>
+>>>>>>> .merge_file_10daEz
     </>
-  )
+  );
 }
 
-export default App
+export default App;

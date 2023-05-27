@@ -1,10 +1,17 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
+<<<<<<< .merge_file_EkJtgX
 import { LOGIN } from '../../queries/global/loginUser.mutation'
 
 function Login() {
   const [ login, setLogin ] = useState({ email: "", password: "" });
 
+=======
+import { LOGIN } from "../../queries/global/loginUser.mutation";
+
+function Login() {
+  const [login, setLogin] = useState({ email: "", password: "" });
+>>>>>>> .merge_file_pwcJc9
   const [loginHandler, { data, loading, error }] = useMutation(LOGIN);
 
   if (data) {
