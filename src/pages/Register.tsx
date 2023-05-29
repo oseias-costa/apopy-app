@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { InputWithLabel } from '../../components/global/InputWithLabel'
+import { InputWithLabel } from '../components/global/InputWithLabel'
 
 export const Register = () => {
     const [ registerData, setRegisterData ] = useState<Object>(

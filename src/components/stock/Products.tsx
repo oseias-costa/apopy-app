@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { PRODUCTS } from '../../queries/stock/products'
+import { PRODUCTS } from '../../queries/products'
 import { ProductsData } from '../../types/stock/products.type'
 
 export const Products = () => {

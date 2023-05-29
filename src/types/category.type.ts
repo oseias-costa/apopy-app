@@ -4,3 +4,9 @@ export type CategoryData = {
     name: string
     subcategory: [string]
 }
+
+export type CategoryState = {
+    _id: string, 
+    name: string, 
+    type: string
+}
