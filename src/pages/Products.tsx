@@ -8,6 +8,7 @@ import {
 } from "../queries/categories";
 import { Supliers } from "../components/stock/Supliers";
 import { CategoryData, CategoryState } from "../types/category.type";
+import { client } from "../main";
 
 export const Products = () => {
   const [categoryState, setCategoryState] = useState<CategoryState>({
@@ -23,11 +24,11 @@ export const Products = () => {
   const [createCategory, { data: cData, loading: cLoading, error: cError }] =
     useMutation(ADD_CATEGORY, {
       update: (cache, { data: { createCategory } }) => {
-        const { categories } = cache.readQuery({ query: CATEGORIES });
+        const { categories } = cache.readQuery({ query: CATEGORIES})
 
         cache.writeQuery({
           query: CATEGORIES,
-          data: { createCategory, ...categories },
+          data: { categories },
         });
         // console.log('olhe:', data)
         // cache.modify({
@@ -45,15 +46,36 @@ export const Products = () => {
     });
   const [updateCategory, { data: eData, loading: eLoading, error: eError }] =
     useMutation(UPDATE_CATEGORY, {
-      update: (cache, { data }) => {  
-        cache.updateQuery({ query: CATEGORIES}, (prev) => ({
-          console.log(prev)
-        }))
-      },
+      update(cache, { data }){
+
+         cache.readQuery({ query: CATEGORIES })
+        console.log('esse é o test: ', data)
+        
+        // cache.writeQuery({
+        //   query: CATEGORIES,
+        //   data: {
+        //     categories: categories.filter(item => todo._id !== data.updateCategory._id)
+        //   }
+        // })
+      }
     });
 
-  const [deleteCategory, { data: dData, loading: dLoading, error: dError }] =
-    useMutation(DELETE_CATEGORY);
+  const [ deleteCategory, { data: dData, loading: dLoading, error: dError }] =
+    useMutation(DELETE_CATEGORY, {
+      update: (cache, { data: { deleteCategory } }) => {
+       const normalizedId = cache.identify({ _id: deleteCategory._id, __typename: "Category" })
+
+       cache.evict({ id: normalizedId })
+       cache.gc()
+        console.log('esse é o cacheRead', normalizedId)
+        // cache.writeQuery({
+        //   query: CATEGORIES,
+        //   data: {
+        //     categories: Category.filter(categ => categ._id !== data.deleteCategory._id)
+        //   }
+        // })
+      }
+    });
 
   const handleMutation = async (
     categoryState: CategoryState,
