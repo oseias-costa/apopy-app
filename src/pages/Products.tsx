@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation, gql } from "@apollo/client";
 import {
   CATEGORIES,
   ADD_CATEGORY,
@@ -23,58 +23,56 @@ export const Products = () => {
   });
   const [createCategory, { data: cData, loading: cLoading, error: cError }] =
     useMutation(ADD_CATEGORY, {
-      update: (cache, { data: { createCategory } }) => {
-        const { categories } = cache.readQuery({ query: CATEGORIES})
-
+      update: (cache, { data }) => {
+        console.log("porrrrrrra", cache);
+        const { categories } = client.readQuery({ query: CATEGORIES });
         cache.writeQuery({
           query: CATEGORIES,
-          data: { categories },
+          data: {
+            categories: [...categories, data.createCategory],
+          },
         });
-        // console.log('olhe:', data)
-        // cache.modify({
-        // fields: {
-        //categories: (existingFieldData = []) => {
-        // const newCategory = data.createCategory
-        // cache.writeQuery({
-        // query: CATEGORIES,
-        //  data: { newCategory, ...existingFieldData }
-        //     })
-        //  }
-        // }
-        //})
       },
     });
   const [updateCategory, { data: eData, loading: eLoading, error: eError }] =
     useMutation(UPDATE_CATEGORY, {
-      update(cache, { data }){
+      update(cache, { data: { updateCategory } }) {
+        client.readFragment({
+          id: `Category:${updateCategory._id}`,
+          fragment: gql`
+            fragment MyCategory on Category {
+              _id
+              name
+            }
+          `,
+        });
 
-         cache.readQuery({ query: CATEGORIES })
-        console.log('esse é o test: ', data)
-        
         // cache.writeQuery({
         //   query: CATEGORIES,
         //   data: {
         //     categories: categories.filter(item => todo._id !== data.updateCategory._id)
         //   }
         // })
-      }
+      },
     });
 
-  const [ deleteCategory, { data: dData, loading: dLoading, error: dError }] =
+  const [deleteCategory, { data: dData, loading: dLoading, error: dError }] =
     useMutation(DELETE_CATEGORY, {
       update: (cache, { data: { deleteCategory } }) => {
-       const normalizedId = cache.identify({ _id: deleteCategory._id, __typename: "Category" })
+        const normalizedId = cache.identify({
+          _id: deleteCategory._id,
+          __typename: "Category",
+        });
 
-       cache.evict({ id: normalizedId })
-       cache.gc()
-        console.log('esse é o cacheRead', normalizedId)
+        cache.evict({ id: normalizedId });
+        cache.gc();
         // cache.writeQuery({
         //   query: CATEGORIES,
         //   data: {
         //     categories: Category.filter(categ => categ._id !== data.deleteCategory._id)
         //   }
         // })
-      }
+      },
     });
 
   const handleMutation = async (
@@ -147,7 +145,6 @@ export const Products = () => {
       );
     });
 
-  console.log("query", data);
   return (
     <div>
       <h1>Products</h1>
