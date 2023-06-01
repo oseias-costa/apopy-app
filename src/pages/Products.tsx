@@ -21,19 +21,19 @@ export const Products = () => {
       userId: "6451a787de4c08d54ed8da35",
     },
   });
-  const [createCategory, { data: cData, loading: cLoading, error: cError }] =
+  const [ createCategory, { data: cData, loading: cLoading, error: cError }] =
     useMutation(ADD_CATEGORY, {
       update: (cache, { data }) => {
-        console.log("porrrrrrra", cache);
-        const { categories } = client.readQuery({ query: CATEGORIES });
-        cache.writeQuery({
-          query: CATEGORIES,
-          data: {
-            categories: [...categories, data.createCategory],
-          },
-        });
-      },
-    });
+        const cacheId: string= cache.identify(data.createCategory)
+        cache.modify({
+         fields: {
+           categories: (existingFieldData, { toReference }) => {
+             return [ ...existingFieldData, toReference(cacheId)]
+            }
+          }
+        })
+  }
+})
   const [updateCategory, { data: eData, loading: eLoading, error: eError }] =
     useMutation(UPDATE_CATEGORY, {
       update(cache, { data: { updateCategory } }) {
@@ -65,13 +65,6 @@ export const Products = () => {
         });
 
         cache.evict({ id: normalizedId });
-        cache.gc();
-        // cache.writeQuery({
-        //   query: CATEGORIES,
-        //   data: {
-        //     categories: Category.filter(categ => categ._id !== data.deleteCategory._id)
-        //   }
-        // })
       },
     });
 
