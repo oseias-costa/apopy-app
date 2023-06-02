@@ -24,7 +24,7 @@ export const Products = () => {
   const [ createCategory, { data: cData, loading: cLoading, error: cError }] =
     useMutation(ADD_CATEGORY, {
       update: (cache, { data }) => {
-        const cacheId: string= cache.identify(data.createCategory)
+        const cacheId : string = cache.identify(data.createCategory)
         cache.modify({
          fields: {
            categories: (existingFieldData, { toReference }) => {
