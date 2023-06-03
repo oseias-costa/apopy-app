@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useQuery, useMutation, gql } from "@apollo/client";
 import {
   CATEGORIES,
@@ -9,8 +9,20 @@ import {
 import { Supliers } from "../components/stock/Supliers";
 import { CategoryData, CategoryState } from "../types/category.type";
 import { client } from "../main";
+import { DropdownItem } from "../components/global/DropdownItem";
 
 export const Products = () => {
+  const [ addItem, setAddItem ] = useState<boolean>(false)
+  const [ dropPosition, setDropPosition ] = useState({})
+  const addRef = useRef<HTMLButtonElement>(null)
+
+  const handleAdd = () => {
+    const addRefCoord = addRef.current && setDropPosition(addRef.current.getBoundingClientRect())
+    console.log(addRefCoord)
+    setAddItem(true)
+  }
+
+
   const [categoryState, setCategoryState] = useState<CategoryState>({
     _id: "",
     name: "",
@@ -140,6 +152,8 @@ export const Products = () => {
 
   return (
     <div>
+      <button onClick={() => handleAdd()} ref={addRef}>Add Item</button>
+      <DropdownItem addItem={addItem} dropPosition={dropPosition} />
       <h1>Products</h1>
       <div>
         <h2>Criar</h2>

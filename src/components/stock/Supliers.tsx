@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { SUPLIERS, CREATE_SUPLIER } from "../../queries/supliers";
+import { SUPLIERS, CREATE_SUPLIER, UPDATE_SUPLIER } from "../../queries/supliers";
 import { SuplierData } from "../../types/stock/supliers.type";
 import { client } from "../../main";
 
@@ -28,6 +28,8 @@ export const Supliers = () => {
       }
     }
   );
+
+  // const [ updateSuplier ] = useQuery(UPDATE_SUPLIER)
 
   console.log("criado suplier", createData);
   console.log("erro create", createError);
