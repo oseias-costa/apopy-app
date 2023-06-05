@@ -1,7 +1,7 @@
 import Login from "./pages/Login";
 import { Register } from "./pages/Register";
 import { Root } from "./components/global/Root";
-import { Products } from "./pages/Products";
+import { Products } from "./pages/managementProducts/Products";
 import "./App.css";
 import {
   createBrowserRouter,

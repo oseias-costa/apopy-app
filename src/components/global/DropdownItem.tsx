@@ -1,34 +1,50 @@
-import { styled } from "styled-components"
+import styled, { keyframes } from "styled-components"
 
-export const DropdownItem = ({ addItem, dropPosition} : { addItem: boolean, dropPosition: { top: number, right: number}}) => {
-    console.log('teste no drop', dropPosition)
+export const DropdownItem = ({ addItem, dropPosition, ref, setOpenModal, setMutateState} : { ref: any, addItem: boolean, dropPosition: { top: number, right: number}}) => {
     return(
-        <Container addItem={addItem} dropPosition={dropPosition}>
-        <li>
-            <a>Categoria</a>
-        </li>
-        <li>
+        <Container addItem={addItem} dropPosition={dropPosition} ref={ref} id='dropMenuAdd'>
+            <a onClick={() => {
+                setMutateState({
+                    _id: "",  name: "",  type: "create",  edit: 'category'
+                })
+                setOpenModal(true)}}>Categoria</a>
             <a>Subcategoria</a>
-        </li>
-        <li>
-            <a>Fornecedor</a>
-        </li>
+            <a onClick={() => {
+                setMutateState({
+                    _id: "",  name: "",  type: "create",  edit: 'suplier'
+                })
+                setOpenModal(true)}}>Fornecedor</a>
         </Container>
     )
 }
 
-const Container = styled("ul")<{ addItem : boolean, dropPosition: { top: number, right: number, left: number}}>`
-    display: ${props => props.addItem === true ? 'block' : 'none'};
+const openMenu = keyframes`
+    from {
+        transform: translateY(-20px);
+    } to {
+        transform: translateY(0px);
+    }
+`
+
+const Container = styled("div")<{ addItem : boolean, dropPosition: { top: number, right: number, left: number}}>`
+    display: ${props => props.addItem === true ? 'flex' : 'none'};
+    flex-direction: column;
+    align-items: flex-start;
     position: absolute;
     background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 5px;
+    width: 200px;
+    padding: 10px;
     top: ${props => {
-        const res = props.dropPosition.top + 30
+        const res = props.dropPosition.top + 45
         return `${res}px`
         }};
     left: ${props => {
         const res = props.dropPosition.left 
-        console.log('left', res)
         return `${res}px`
     }};
+    transition: 2s linear;
+    animation: ${openMenu} 0.15s linear;
 `
+
