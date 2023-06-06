@@ -6,6 +6,7 @@ import { Category } from "./components/Category";
 import { CategoryList } from "./components/CategoryList";
 import { SuplierList } from "./components/SuplierList";
 import { Suplier } from "./components/Suplier";
+import { Subcategory } from "./components/Subcategory";
 
 type categoryStateType = {
   [key: string]: string;
@@ -53,6 +54,12 @@ export const Products = () => {
         setMutateState={setMutateState}
       />
     ),
+    subcategory: (
+      <Subcategory 
+        setOpenModal={setOpenModal}
+        mutateState={mutateState}
+      />
+    )
   };
 
   const handleAdd = () => {

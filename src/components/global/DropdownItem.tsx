@@ -3,16 +3,14 @@ import styled, { keyframes } from "styled-components"
 export const DropdownItem = ({ addItem, dropPosition, ref, setOpenModal, setMutateState} : { ref: any, addItem: boolean, dropPosition: { top: number, right: number}}) => {
     return(
         <Container addItem={addItem} dropPosition={dropPosition} ref={ref} id='dropMenuAdd'>
-            <a onClick={() => {
-                setMutateState({
-                    _id: "",  name: "",  type: "create",  edit: 'category'
-                })
+            <a onClick={() => { setMutateState({
+                    _id: "",  name: "",  type: "create",  edit: 'category' })
                 setOpenModal(true)}}>Categoria</a>
-            <a>Subcategoria</a>
-            <a onClick={() => {
-                setMutateState({
-                    _id: "",  name: "",  type: "create",  edit: 'suplier'
-                })
+            <a onClick={() => { setMutateState({
+                    _id: "",  name: "",  type: "create",  edit: 'subcategory' })
+                setOpenModal(true)}}>Subcategoria</a>
+            <a onClick={() => { setMutateState({
+                    _id: "",  name: "",  type: "create",  edit: 'suplier' })
                 setOpenModal(true)}}>Fornecedor</a>
         </Container>
     )
