@@ -38,12 +38,12 @@ export const Products = () => {
     edit: "",
   });
 
-  const [ mutate2, setMutate2 ] = useMutateState()
+  const { state, dispatch } = useMutateState()
 
-  console.log(mutate2);
+  console.log(state);
 
   useEffect(() => {
-    setMutate2({
+    dispatch({
       _id: '123',
       name: 'oseias',
       type: 'create',
@@ -52,7 +52,7 @@ export const Products = () => {
 
   }, [])
   
-  console.log(mutate2)
+  console.log(state)
 
   const typeModal: typeModal = {
     category: (

@@ -16,13 +16,14 @@ export const useMutateState = () => {
     const mutateStateFn = makeVar(state)
     useReactiveVar(mutateStateFn)
 
-    const updateState = (newState: mutateProps) => {
-        return setState(newState)
+    const dispatch = (newState: mutateProps) => {
+        // const newState = reducer(state)
+        setState(newState)
     }
 
     if(!state) {
         setState(initialValue)
     }
 
-    return [ state, updateState ]
+    return { state, dispatch: (s: mutateProps) => dispatch(s) }
 }
