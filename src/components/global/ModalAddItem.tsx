@@ -17,7 +17,7 @@ export const ModalProduct = ({openModal, setOpenModal, children} : { openModal: 
     display: ${ props => props.openModal === true ? 'flex' : 'none'};
     align-items: center;
     justify-content: center;
-    position: absolute;
+    position: fixed;
     top: 0;
     width: 100%;
     height: 100vh;

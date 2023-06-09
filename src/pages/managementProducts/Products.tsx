@@ -7,6 +7,7 @@ import { CategoryList } from "./components/CategoryList";
 import { SuplierList } from "./components/SuplierList";
 import { Suplier } from "./components/Suplier";
 import { Subcategory } from "./components/Subcategory";
+import { useMutateState } from "./components/mutate-state";
 
 type categoryStateType = {
   [key: string]: string;
@@ -37,7 +38,21 @@ export const Products = () => {
     edit: "",
   });
 
-  console.log(mutateState);
+  const [ mutate2, setMutate2 ] = useMutateState()
+
+  console.log(mutate2);
+
+  useEffect(() => {
+    setMutate2({
+      _id: '123',
+      name: 'oseias',
+      type: 'create',
+      edit: 'category'
+    })
+
+  }, [])
+  
+  console.log(mutate2)
 
   const typeModal: typeModal = {
     category: (

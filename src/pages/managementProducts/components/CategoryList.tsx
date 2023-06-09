@@ -61,8 +61,26 @@ export const CategoryList = ({ setMutateState, setOpenModal }) => {
             return (
               <div key={sub}>
                 <p>{sub}</p>
-                <button>update</button>
-                <button>delete</button>
+                <button onClick={() => {
+                  setMutateState({
+                    category: item._id,
+                    categoryName: item.name,
+                    name: sub,
+                    type: "update",
+                    edit: "subcategory",
+                  })
+                  setOpenModal(true)
+                }}>update</button>
+                <button onClick={() => {
+                  setMutateState({
+                    category: item._id,
+                    categoryName: item.name,
+                    name: sub,
+                    type: "delete",
+                    edit: "subcategory",
+                  })
+                  setOpenModal(true)
+                }}>delete</button>
               </div>
             );
           })}
