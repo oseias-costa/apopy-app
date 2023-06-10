@@ -2,12 +2,14 @@ import { useState } from "react";
 import { makeVar, useReactiveVar } from "@apollo/client";
 
 type mutateProps = {
-  _id: string;
+  _id?: string;
   name: string;
   type: string;
   edit: string;
   categoryName?: string;
+  category?: string;
   openModal: boolean;
+  categorySelected?: string;
 };
 
 export const initialValue = {
@@ -16,6 +18,7 @@ export const initialValue = {
   type: "create",
   edit: "",
   categoryName: "",
+  category: "",
   openModal: false,
 };
 export const useMutateState = () => {

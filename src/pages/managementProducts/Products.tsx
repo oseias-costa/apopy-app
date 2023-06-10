@@ -27,8 +27,6 @@ type MutationStateObject = {
 export const Products = () => {
   const [addItem, setAddItem] = useState<boolean>(false);
   const [dropPosition, setDropPosition] = useState({});
-  const [openModal, setOpenModal] =
-    useState<React.SetStateAction<boolean>>(false);
   const addRef = useRef<HTMLButtonElement>(null);
   const DOMNode = useRef<HTMLDivElement>(null);
   const [mutateState, setMutateState] = useState<MutationStateObject>({
@@ -38,43 +36,14 @@ export const Products = () => {
     edit: "",
   });
 
-  const { state, dispatch } = useMutateState()
+  const { state, dispatch } = useMutateState();
 
   console.log(state);
 
-  useEffect(() => {
-    dispatch({
-      _id: '123',
-      name: 'oseias',
-      type: 'create',
-      edit: 'category'
-    })
-
-  }, [])
-  
-  console.log(state)
-
   const typeModal: typeModal = {
-    category: (
-      <Category
-        setOpenModal={setOpenModal}
-        categoryState={mutateState}
-        setCategoryState={setMutateState}
-      />
-    ),
-    suplier: (
-      <Suplier
-        setOpenModal={setOpenModal}
-        mutateState={mutateState}
-        setMutateState={setMutateState}
-      />
-    ),
-    subcategory: (
-      <Subcategory 
-        setOpenModal={setOpenModal}
-        mutateState={mutateState}
-      />
-    )
+    category: <Category />,
+    suplier: <Suplier />,
+    subcategory: <Subcategory />,
   };
 
   const handleAdd = () => {
@@ -102,25 +71,13 @@ export const Products = () => {
         addItem={addItem}
         dropPosition={dropPosition}
         ref={DOMNode}
-        setOpenModal={setOpenModal}
         setMutateState={setMutateState}
       />
       <h1>Products</h1>
-      <CategoryList
-        setOpenModal={setOpenModal}
-        setMutateState={setMutateState}
-      />
+      <CategoryList />
       <h2>Fornecedores</h2>
-
-      <SuplierList
-        setOpenModal={setOpenModal}
-        setMutateState={setMutateState}
-      />
-      <ModalProduct
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        children={typeModal[mutateState.edit]}
-      />
+      <SuplierList />
+      <ModalProduct children={typeModal[mutateState.edit]} />
     </div>
   );
 };

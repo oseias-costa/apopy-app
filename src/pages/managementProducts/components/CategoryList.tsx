@@ -1,8 +1,11 @@
 import { useQuery } from "@apollo/client";
 import { CATEGORIES } from "../../../queries/categories";
+import { useMutateState } from "./mutate-state";
 
-export const CategoryList = ({ setMutateState, setOpenModal }) => {
-  const { data, loading, error } = useQuery(CATEGORIES, {
+export const CategoryList = () => {
+  const { dispatch } = useMutateState();
+
+  const { data, loading } = useQuery(CATEGORIES, {
     variables: {
       userId: "6451a787de4c08d54ed8da35",
     },
@@ -17,25 +20,26 @@ export const CategoryList = ({ setMutateState, setOpenModal }) => {
             type="checkbox"
             value={item.id}
             onChange={() =>
-              setMutateState({
+              dispatch({
                 _id: item._id,
                 name: item.name,
                 type: "update",
                 edit: "category",
                 categorySelected: item._id,
+                openModal: false,
               })
             }
           />
           <strong>{item.name}</strong>
           <button
             onClick={() => {
-              setMutateState({
+              dispatch({
                 _id: item._id,
                 name: item.name,
                 type: "update",
                 edit: "category",
+                openModal: true,
               });
-              setOpenModal(true);
             }}
           >
             {" "}
@@ -44,13 +48,13 @@ export const CategoryList = ({ setMutateState, setOpenModal }) => {
 
           <button
             onClick={() => {
-              setMutateState({
+              dispatch({
                 _id: item._id,
                 name: item.name,
                 type: "delete",
                 edit: "category",
+                openModal: true,
               });
-              setOpenModal(true);
             }}
           >
             {" "}
@@ -61,26 +65,34 @@ export const CategoryList = ({ setMutateState, setOpenModal }) => {
             return (
               <div key={sub}>
                 <p>{sub}</p>
-                <button onClick={() => {
-                  setMutateState({
-                    category: item._id,
-                    categoryName: item.name,
-                    name: sub,
-                    type: "update",
-                    edit: "subcategory",
-                  })
-                  setOpenModal(true)
-                }}>update</button>
-                <button onClick={() => {
-                  setMutateState({
-                    category: item._id,
-                    categoryName: item.name,
-                    name: sub,
-                    type: "delete",
-                    edit: "subcategory",
-                  })
-                  setOpenModal(true)
-                }}>delete</button>
+                <button
+                  onClick={() => {
+                    dispatch({
+                      category: item._id,
+                      categoryName: item.name,
+                      name: sub,
+                      type: "update",
+                      edit: "subcategory",
+                      openModal: true,
+                    });
+                  }}
+                >
+                  update
+                </button>
+                <button
+                  onClick={() => {
+                    dispatch({
+                      category: item._id,
+                      categoryName: item.name,
+                      name: sub,
+                      type: "delete",
+                      edit: "subcategory",
+                      openModal: true,
+                    });
+                  }}
+                >
+                  delete
+                </button>
               </div>
             );
           })}
