@@ -1,22 +1,29 @@
 import { useQuery, useReactiveVar } from "@apollo/client";
+import { useEffect } from "react";
 import { CATEGORIES } from "../../../queries/categories";
-import { initialValue, useMutateState } from "./mutate-state";
+import { initialValue, testVar, useMutateState } from "./mutate-state";
 
 export const CategoryList = () => {
-  const  { state, dispatch } = useMutateState()
+  const { state, dispatch } = useMutateState();
 
-  console.log('inicio', state) 
-  dispatch({
-    _id: "1234",
-    name: "oseias",
-    type: "create",
-    edit: "delete",
-    categoryName: "",
-    category: "",
-    openModal: false,
-  })
-  console.log('novo teste', state)
+  const usage = useReactiveVar(testVar);
+  console.log("inicio", usage);
+  const fn = () => {
+    return testVar({
+      _id: "1234",
+      name: "oseias",
+      type: "create",
+      edit: "delete",
+      categoryName: "",
+      category: "",
+      openModal: false,
+    });
+  };
 
+  useEffect(() => {
+    fn();
+  }, []);
+  console.log("novo teste", usage);
 
   const { data, loading } = useQuery(CATEGORIES, {
     variables: {

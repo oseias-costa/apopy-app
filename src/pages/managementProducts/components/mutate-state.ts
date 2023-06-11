@@ -24,14 +24,16 @@ export const initialValue = {
 export const useMutateState = () => {
   const mutateStateVar = makeVar<mutateProps>(initialValue);
 
-    const res = useReactiveVar(mutateStateVar)
+  const res = useReactiveVar(mutateStateVar);
 
-   const dispatch = (newState: mutateProps) => {
-    mutateStateVar(newState)
-   };
+  const dispatch = (newState: mutateProps) => {
+    return mutateStateVar(newState);
+  };
 
-  return { 
-    state: res, 
-    dispatch: (s: mutateProps) => dispatch(s)
+  return {
+    state: () => res,
+    dispatch: (s: mutateProps) => dispatch(s),
   };
 };
+
+export const testVar = makeVar<mutateProps>(initialValue);
