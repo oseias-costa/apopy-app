@@ -7,7 +7,7 @@ import { CategoryList } from "./components/CategoryList";
 import { SuplierList } from "./components/SuplierList";
 import { Suplier } from "./components/Suplier";
 import { Subcategory } from "./components/Subcategory";
-import { useMutateState } from "./components/mutate-state";
+import { initialValue, useMutateState } from "./components/mutate-state";
 
 type categoryStateType = {
   [key: string]: string;
@@ -36,9 +36,11 @@ export const Products = () => {
     edit: "",
   });
 
-  const { state, dispatch } = useMutateState();
+  const  { state, dispatch } = useMutateState()
 
-  console.log(state);
+  console.log('inicio', state) 
+  dispatch({ ...initialValue, name: 'oseias'})
+  console.log('novo teste', state)
 
   const typeModal: typeModal = {
     category: <Category />,
@@ -77,7 +79,7 @@ export const Products = () => {
       <CategoryList />
       <h2>Fornecedores</h2>
       <SuplierList />
-      <ModalProduct children={typeModal[mutateState.edit]} />
+      <ModalProduct children={typeModal[mutateState.edit]} state={state} />
     </div>
   );
 };

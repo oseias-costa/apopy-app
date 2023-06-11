@@ -6,6 +6,7 @@ import {
 
 export const ModalProduct = ({ children }: { children: React.ReactNode }) => {
   const { state, dispatch } = useMutateState();
+
   document.addEventListener("click", (e) => {
     if (e.target === document.getElementById("modalCreateCategory")) {
       dispatch(initialValue);

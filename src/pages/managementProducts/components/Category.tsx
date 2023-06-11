@@ -9,7 +9,6 @@ import { initialValue, useMutateState } from "./mutate-state";
 
 export const Category = () => {
   const { state, dispatch } = useMutateState();
-  console.log(state);
 
   const [createCategory] = useMutation(ADD_CATEGORY, {
     update: (cache, { data }) => {
@@ -84,15 +83,15 @@ export const Category = () => {
   return (
     <div>
       <div>
-        <h2>{state.type}</h2>
+        <h2>{state().type}</h2>
         <input
           type="text"
-          value={state.name}
-          disabled={state.type === "delete" ? true : false}
-          onChange={(e) => dispatch({ ...state, name: e.target.value })}
+          value={state().name}
+          disabled={state().type === "delete" ? true : false}
+          onChange={(e) => dispatch({ ...state(), name: e.target.value })}
         />
         <button type="submit" onClick={() => handleCategoryMutation()}>
-          {state.type}
+          {state().type}
         </button>
         <button
           type="submit"

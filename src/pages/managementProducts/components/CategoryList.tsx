@@ -1,9 +1,22 @@
-import { useQuery } from "@apollo/client";
+import { useQuery, useReactiveVar } from "@apollo/client";
 import { CATEGORIES } from "../../../queries/categories";
-import { useMutateState } from "./mutate-state";
+import { initialValue, useMutateState } from "./mutate-state";
 
 export const CategoryList = () => {
-  const { dispatch } = useMutateState();
+  const  { state, dispatch } = useMutateState()
+
+  console.log('inicio', state) 
+  dispatch({
+    _id: "1234",
+    name: "oseias",
+    type: "create",
+    edit: "delete",
+    categoryName: "",
+    category: "",
+    openModal: false,
+  })
+  console.log('novo teste', state)
+
 
   const { data, loading } = useQuery(CATEGORIES, {
     variables: {
