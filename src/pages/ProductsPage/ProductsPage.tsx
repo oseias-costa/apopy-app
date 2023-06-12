@@ -1,7 +1,9 @@
-
+import { ProductsList } from "./components/ProductsList";
 
 export const ProductsPage = () => {
-    return(
-        <div>Products Page</div>
-    )
-}
+  return (
+    <div>
+      <ProductsList />
+    </div>
+  );
+};
