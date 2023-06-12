@@ -4,17 +4,20 @@ import {
   dispatchCategoryVar,
   initialValue
 } from "../../pages/CategoryPage/components/mutate-state";
+import { dispatchProductVar } from '../../pages/ProductsPage/components/productVar';
 
 export const ModalProduct = ({ children }: { children: React.ReactNode }) => {
 const state = useReactiveVar(dispatchCategoryVar)
+const stateProduct = useReactiveVar(dispatchProductVar)
 
   document.addEventListener("click", (e) => {
     if (e.target === document.getElementById("modalCreateCategory")) {
       dispatchCategoryVar(initialValue);
+      dispatchProductVar(initialValue)
     }
   });
   return (
-    <ModalContainer openModal={state.openModal} id="modalCreateCategory">
+    <ModalContainer openModal={state.openModal || stateProduct.openModal} id="modalCreateCategory">
       <Modal>{children}</Modal>
     </ModalContainer>
   );

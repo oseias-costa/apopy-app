@@ -12,3 +12,16 @@ export const PRODUCTS = gql`
     }
 }
 `
+
+export const CREATE_PRODUCT = gql`
+    mutation Mutation($productInput: ProductInput) {
+        createProduct(productInput: $productInput) {
+            _id
+            category
+            name
+            subcategory
+            suplier
+            userId
+        }
+    }
+`

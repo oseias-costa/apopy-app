@@ -14,7 +14,7 @@ type mutateProps = {
 export const initialValue = {
   _id: "",
   name: "",
-  type: "create",
+  type: "",
   edit: "",
   categoryName: "",
   category: "",
