@@ -10,43 +10,51 @@ export const ProductForm = () => {
     product: "",
     newProduct: "",
   });
-  console.log(itemSelected);
+
   const { data } = useQuery(CATEGORIES, {
     variables: {
       userId: "6451a787de4c08d54ed8da35",
     },
   });
-  
+
   const categorySelect = (
-      <select
-        onChange={(e) =>
-          setItemSelected({ ...itemSelected, category: e.target.value })
-        }
-      >
-        {data?.categories.map((item) => (
-          <option key={item.name} value={item.name}>
-            {item.name}
-          </option>
-        ))}
-      </select>
-  )
-  
-  const subcategorySelect = (
-      <select>
-          { itemSelected.category !== '' && 
-                { data?.categories.itemSelected.Category.map((item: string) => (
-                    <option>{item}</option>   
-                ))     
-                }
-                
-          
-           }
-      </select>
-  )
-  
+    <select
+      onChange={(e) =>
+        setItemSelected({ ...itemSelected, category: e.target.value })
+      }
+    >
+      {data?.categories.map((item) => (
+        <option key={item.name} value={item.name}>
+          {item.name}
+        </option>
+      ))}
+    </select>
+  );
+
+  type categoryItem = {
+    name: string;
+    subcategory: [string];
+    __typename: string;
+    _id: string;
+  };
+
+  const categorySelected: [categoryItem] = data?.categories.filter(
+    (item) => item.name === itemSelected.category
+  );
+
+  console.log("item category", categorySelected);
+  const subcategorySelect = itemSelected.category !== "" && (
+    <select>
+      {categorySelected[0].subcategory.map((item: string) => {
+        return <option>{item}</option>;
+      })}
+    </select>
+  );
+
   return (
     <div>
-        { categorySelect }
+      {categorySelect}
+      {subcategorySelect}
     </div>
   );
 };
