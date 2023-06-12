@@ -1,17 +1,29 @@
 import styled, { keyframes } from "styled-components"
+import { dispatchCategoryVar } from "../../pages/CategoryPage/components/mutate-state"
 
-export const DropdownItem = ({ addItem, dropPosition, ref, setOpenModal, setMutateState} : { ref: any, addItem: boolean, dropPosition: { top: number, right: number}}) => {
+
+export const DropdownItem = ({ addItem, dropPosition, ref} : { ref: any, addItem: boolean, dropPosition: { top: number, right: number}}) => {
+    const objDispatch = (editType: string) => {
+        return {
+            _id: "",  
+            name: "",  
+            type: "create",  
+            edit: editType, 
+            openModal: true
+        }
+    }
+
     return(
         <Container addItem={addItem} dropPosition={dropPosition} ref={ref} id='dropMenuAdd'>
-            <a onClick={() => { setMutateState({
-                    _id: "",  name: "",  type: "create",  edit: 'category' })
-                setOpenModal(true)}}>Categoria</a>
-            <a onClick={() => { setMutateState({
-                    _id: "",  name: "",  type: "create",  edit: 'subcategory' })
-                setOpenModal(true)}}>Subcategoria</a>
-            <a onClick={() => { setMutateState({
-                    _id: "",  name: "",  type: "create",  edit: 'suplier' })
-                setOpenModal(true)}}>Fornecedor</a>
+            <a onClick={() => 
+                dispatchCategoryVar(objDispatch('category'))
+            }>Categoria</a>
+            <a onClick={() => 
+                dispatchCategoryVar(objDispatch('subcategory'))
+            }>Subcategoria</a>
+            <a onClick={() => 
+            dispatchCategoryVar(objDispatch('suplier'))
+            }>Fornecedor</a>
         </Container>
     )
 }
@@ -35,7 +47,7 @@ const Container = styled("div")<{ addItem : boolean, dropPosition: { top: number
     width: 200px;
     padding: 10px;
     top: ${props => {
-        const res = props.dropPosition.top + 45
+        const res = props.dropPosition.top + 25
         return `${res}px`
         }};
     left: ${props => {
@@ -44,5 +56,9 @@ const Container = styled("div")<{ addItem : boolean, dropPosition: { top: number
     }};
     transition: 2s linear;
     animation: ${openMenu} 0.15s linear;
+
+    a{ 
+        cursor: pointer;
+    }
 `
 

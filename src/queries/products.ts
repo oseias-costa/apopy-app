@@ -11,5 +11,4 @@ export const PRODUCTS = gql`
             userId
     }
 }
-
 `

@@ -7,7 +7,8 @@ export const Root: () => JSX.Element = () => {
         <Link to="/">Home</Link>
         <Link to="/login">Login</Link>
         <Link to="/registrar">Registrar</Link>
-        <Link to="/estoque/produto">Produtos</Link>
+        <Link to="/estoque/categoria">Produtos</Link>
+        <Link to="/estoque/produtos">Lista Produtos</Link>
         <Outlet />
       </nav>
     </>

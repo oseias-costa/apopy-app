@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation, gql, useReactiveVar } from "@apollo/client";
 import { CATEGORIES } from "../../../queries/categories";
 import {
   CREATE_SUBCATEGORY,
   DELETE_SUBCATEGORY,
   UPDATE_SUBCATEGORY,
 } from "../../../queries/subcategories";
-import { initialValue, useMutateState } from "./mutate-state";
+import { initialValue, dispatchCategoryVar } from "./mutate-state";
 
 type SubcategoryType = {
   _id: string;
@@ -26,7 +26,7 @@ export const Subcategory = () => {
   const [subcategoryState, setSubcategoryState] = useState<SubcategoryType>(
     initialSubcategoryState
   );
-  const { state, dispatch } = useMutateState();
+  const state = useReactiveVar(dispatchCategoryVar)
 
   useEffect(() => {
     if (state.categoryName) {
@@ -37,10 +37,10 @@ export const Subcategory = () => {
       });
     }
 
-    if (mutateState.type === "create") {
+    if (state.type === "create") {
       return setSubcategoryState({ ...subcategoryState, subcategory: "" });
     }
-  }, [mutateState]);
+  }, [state]);
 
   const { data } = useQuery(CATEGORIES, {
     variables: {
@@ -127,7 +127,7 @@ export const Subcategory = () => {
   });
 
   const handlerSubcategoryMutation = () => {
-    if (mutateState.type === "create") {
+    if (state.type === "create") {
       createSubcategory({
         variables: {
           subcategoryInput: {
@@ -136,9 +136,9 @@ export const Subcategory = () => {
           },
         },
       });
-      dispatch(initialValue);
+      dispatchCategoryVar(initialValue);
       setSubcategoryState(initialSubcategoryState);
-    } else if (mutateState.type === "update") {
+    } else if (state.type === "update") {
       updateSubcategory({
         variables: {
           subcategoryEdit: {
@@ -148,7 +148,7 @@ export const Subcategory = () => {
           },
         },
       });
-      dispatch(initialValue);
+      dispatchCategoryVar(initialValue);
       setSubcategoryState(initialSubcategoryState);
     } else {
       deleteSubcategory({
@@ -159,7 +159,7 @@ export const Subcategory = () => {
           },
         },
       });
-      dispatch(initialValue);
+      dispatchCategoryVar(initialValue);
       setSubcategoryState(initialSubcategoryState);
     }
   };
@@ -206,7 +206,7 @@ export const Subcategory = () => {
         </>
       )}
       <button onClick={handlerSubcategoryMutation}>{state.type}</button>
-      <button onClick={() => dispatch(initialValue)}>Cancel</button>
+      <button onClick={() => dispatchCategoryVar(initialValue)}>Cancel</button>
     </div>
   );
 };

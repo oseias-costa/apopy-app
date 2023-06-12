@@ -1,17 +1,16 @@
-import { useQuery } from "@apollo/client";
+import { useQuery, useReactiveVar } from "@apollo/client";
 import { SUPLIERS } from "../../../queries/supliers";
-import { useMutateState } from "./mutate-state";
+import { dispatchCategoryVar } from "./mutate-state";
 
 export const SuplierList = () => {
     const { data } = useQuery(SUPLIERS);
-    const { dispatch } = useMutateState()
 
     const listSupliers = data?.supliers.map((item) => {
         return(
             <div>
                 <p key={item._id}>{item.name}</p>
                 <button onClick={() => {
-                    dispatch({ 
+                    dispatchCategoryVar({ 
                         _id: item._id, 
                         name: item.name, 
                         type: "update", 
@@ -20,7 +19,7 @@ export const SuplierList = () => {
                     })
                 }}>editar</button>
                 <button onClick={() => {
-                    dispatch({ 
+                    dispatchCategoryVar({ 
                         _id: item._id, 
                         name: item.name, 
                         type: "delete", 

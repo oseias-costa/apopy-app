@@ -1,14 +1,15 @@
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useReactiveVar } from "@apollo/client";
 import {
   ADD_CATEGORY,
   DELETE_CATEGORY,
   UPDATE_CATEGORY,
 } from "../../../queries/categories";
 import { client } from "../../../main";
-import { initialValue, useMutateState } from "./mutate-state";
+import { initialValue, dispatchCategoryVar } from "./mutate-state";
 
 export const Category = () => {
-  const { state, dispatch } = useMutateState();
+  const state = useReactiveVar(dispatchCategoryVar)
+  console.log('estado da categoria', state)
 
   const [createCategory] = useMutation(ADD_CATEGORY, {
     update: (cache, { data }) => {
@@ -57,7 +58,7 @@ export const Category = () => {
           },
         },
       });
-      dispatch(initialValue);
+      dispatchCategoryVar(initialValue);
     } else if (state.type === "update") {
       await updateCategory({
         variables: {
@@ -67,7 +68,7 @@ export const Category = () => {
           },
         },
       });
-      dispatch(initialValue);
+      dispatchCategoryVar(initialValue);
     } else {
       await deleteCategory({
         variables: {
@@ -76,27 +77,27 @@ export const Category = () => {
           },
         },
       });
-      dispatch(initialValue);
+      dispatchCategoryVar(initialValue);
     }
   };
 
   return (
     <div>
       <div>
-        <h2>{state().type}</h2>
+        <h2>{state.type}</h2>
         <input
           type="text"
-          value={state().name}
-          disabled={state().type === "delete" ? true : false}
-          onChange={(e) => dispatch({ ...state(), name: e.target.value })}
+          value={state.name}
+          disabled={state.type === "delete" ? true : false}
+          onChange={(e) => dispatchCategoryVar({ ...state, name: e.target.value })}
         />
         <button type="submit" onClick={() => handleCategoryMutation()}>
-          {state().type}
+          {state.type}
         </button>
         <button
           type="submit"
           onClick={() => {
-            dispatch(initialValue);
+            dispatchCategoryVar(initialValue);
           }}
         >
           Desfazer

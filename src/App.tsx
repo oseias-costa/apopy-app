@@ -1,7 +1,8 @@
 import Login from "./pages/Login";
 import { Register } from "./pages/Register";
 import { Root } from "./components/global/Root";
-import { Products } from "./pages/managementProducts/Products";
+import { CategoryPage } from "./pages/CategoryPage/CategoryPage";
+import { ProductsPage } from "./pages/ProductsPage/ProductsPage";
 import "./App.css";
 import {
   createBrowserRouter,
@@ -15,7 +16,8 @@ const router = createBrowserRouter(
     <Route path="/" element={<Root />}>
       <Route path="/login" element={<Login />} />
       <Route path="/registrar" element={<Register />} />
-      <Route path="/estoque/produto" element={<Products />} />
+      <Route path="/estoque/categoria" element={<CategoryPage />} />
+      <Route path="/estoque/produtos" element={<ProductsPage />} />
     </Route>
   )
 );

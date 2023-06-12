@@ -1,29 +1,8 @@
-import { useQuery, useReactiveVar } from "@apollo/client";
-import { useEffect } from "react";
+import { useQuery } from "@apollo/client";
 import { CATEGORIES } from "../../../queries/categories";
-import { initialValue, testVar, useMutateState } from "./mutate-state";
+import { dispatchCategoryVar } from "./mutate-state";
 
 export const CategoryList = () => {
-  const { state, dispatch } = useMutateState();
-
-  const usage = useReactiveVar(testVar);
-  console.log("inicio", usage);
-  const fn = () => {
-    return testVar({
-      _id: "1234",
-      name: "oseias",
-      type: "create",
-      edit: "delete",
-      categoryName: "",
-      category: "",
-      openModal: false,
-    });
-  };
-
-  useEffect(() => {
-    fn();
-  }, []);
-  console.log("novo teste", usage);
 
   const { data, loading } = useQuery(CATEGORIES, {
     variables: {
@@ -36,24 +15,10 @@ export const CategoryList = () => {
     data?.categories.map((item) => {
       return (
         <div key={item._id}>
-          <input
-            type="checkbox"
-            value={item.id}
-            onChange={() =>
-              dispatch({
-                _id: item._id,
-                name: item.name,
-                type: "update",
-                edit: "category",
-                categorySelected: item._id,
-                openModal: false,
-              })
-            }
-          />
           <strong>{item.name}</strong>
           <button
             onClick={() => {
-              dispatch({
+              dispatchCategoryVar({
                 _id: item._id,
                 name: item.name,
                 type: "update",
@@ -68,7 +33,7 @@ export const CategoryList = () => {
 
           <button
             onClick={() => {
-              dispatch({
+              dispatchCategoryVar({
                 _id: item._id,
                 name: item.name,
                 type: "delete",
@@ -87,7 +52,7 @@ export const CategoryList = () => {
                 <p>{sub}</p>
                 <button
                   onClick={() => {
-                    dispatch({
+                    dispatchCategoryVar({
                       category: item._id,
                       categoryName: item.name,
                       name: sub,
@@ -101,7 +66,7 @@ export const CategoryList = () => {
                 </button>
                 <button
                   onClick={() => {
-                    dispatch({
+                    dispatchCategoryVar({
                       category: item._id,
                       categoryName: item.name,
                       name: sub,

@@ -1,15 +1,16 @@
+import { useReactiveVar } from '@apollo/client'
 import { styled } from "styled-components";
 import {
-  initialValue,
-  useMutateState,
-} from "../../pages/managementProducts/components/mutate-state";
+  dispatchCategoryVar,
+  initialValue
+} from "../../pages/CategoryPage/components/mutate-state";
 
 export const ModalProduct = ({ children }: { children: React.ReactNode }) => {
-  const { state, dispatch } = useMutateState();
+const state = useReactiveVar(dispatchCategoryVar)
 
   document.addEventListener("click", (e) => {
     if (e.target === document.getElementById("modalCreateCategory")) {
-      dispatch(initialValue);
+      dispatchCategoryVar(initialValue);
     }
   });
   return (

@@ -1,13 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { DropdownItem } from "../../components/global/DropdownItem";
-import { styled } from "styled-components";
 import { ModalProduct } from "../../components/global/ModalAddItem";
 import { Category } from "./components/Category";
 import { CategoryList } from "./components/CategoryList";
 import { SuplierList } from "./components/SuplierList";
 import { Suplier } from "./components/Suplier";
 import { Subcategory } from "./components/Subcategory";
-import { initialValue, useMutateState } from "./components/mutate-state";
+import { useReactiveVar } from '@apollo/client'
+import { dispatchCategoryVar } from "./components/mutate-state";
 
 type categoryStateType = {
   [key: string]: string;
@@ -24,23 +24,19 @@ type MutationStateObject = {
   edit: string;
 };
 
-export const Products = () => {
+export const CategoryPage = () => {
   const [addItem, setAddItem] = useState<boolean>(false);
   const [dropPosition, setDropPosition] = useState({});
   const addRef = useRef<HTMLButtonElement>(null);
   const DOMNode = useRef<HTMLDivElement>(null);
-  const [mutateState, setMutateState] = useState<MutationStateObject>({
+  const [ setMutateState ] = useState<MutationStateObject>({
     _id: "",
     name: "",
     type: "create",
     edit: "",
   });
 
-  const  { state, dispatch } = useMutateState()
-
-  console.log('inicio', state) 
-  dispatch({ ...initialValue, name: 'oseias'})
-  console.log('novo teste', state)
+  const state = useReactiveVar(dispatchCategoryVar)
 
   const typeModal: typeModal = {
     category: <Category />,
@@ -79,7 +75,7 @@ export const Products = () => {
       <CategoryList />
       <h2>Fornecedores</h2>
       <SuplierList />
-      <ModalProduct children={typeModal[mutateState.edit]} state={state} />
+      <ModalProduct children={typeModal[state.edit]} />
     </div>
   );
 };

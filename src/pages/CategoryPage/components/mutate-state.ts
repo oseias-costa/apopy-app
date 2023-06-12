@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { makeVar, useReactiveVar } from "@apollo/client";
 
 type mutateProps = {
@@ -21,19 +20,14 @@ export const initialValue = {
   category: "",
   openModal: false,
 };
+export const dispatchCategoryVar = makeVar<mutateProps>(initialValue);
+
 export const useMutateState = () => {
   const mutateStateVar = makeVar<mutateProps>(initialValue);
 
-  const res = useReactiveVar(mutateStateVar);
-
-  const dispatch = (newState: mutateProps) => {
-    return mutateStateVar(newState);
-  };
-
   return {
-    state: () => res,
-    dispatch: (s: mutateProps) => dispatch(s),
+    state: () => useReactiveVar(mutateStateVar),
+    dispatch: (newState: mutateProps) => mutateStateVar(newState),
   };
 };
 
-export const testVar = makeVar<mutateProps>(initialValue);

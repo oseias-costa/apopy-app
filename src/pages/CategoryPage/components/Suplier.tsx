@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useReactiveVar } from "@apollo/client";
 import {
   CREATE_SUPLIER,
   DELETE_SUPLIER,
   UPDATE_SUPLIER,
 } from "../../../queries/supliers";
 import { client } from "../../../main";
-import { useMutateState, initialValue } from "./mutate-state";
+import { dispatchCategoryVar, initialValue } from "./mutate-state";
 
 export const Suplier = () => {
   const [suplierState, setSuplierState] = useState({
@@ -14,9 +14,7 @@ export const Suplier = () => {
     name: "",
     userId: "6451a787de4c08d54ed8da35",
   });
-  const { state, dispatch } = useMutateState();
-
-  console.log("renderizou teste1234", state);
+  const state = useReactiveVar(dispatchCategoryVar);
 
   const [createSuplier] = useMutation(CREATE_SUPLIER, {
     update: (cache, { data }) => {
@@ -65,7 +63,7 @@ export const Suplier = () => {
           },
         },
       });
-      dispatch(initialValue);
+      dispatchCategoryVar(initialValue);
     } else if (state.type === "update") {
       await updateSuplier({
         variables: {
@@ -75,14 +73,14 @@ export const Suplier = () => {
           },
         },
       });
-      dispatch(initialValue);
+      dispatchCategoryVar(initialValue);
     } else {
       await deleteSuplier({
         variables: {
           id: state._id,
         },
       });
-      dispatch(initialValue);
+      dispatchCategoryVar(initialValue);
     }
   };
 
@@ -94,7 +92,7 @@ export const Suplier = () => {
           type="text"
           value={state.name}
           disabled={state.type === "delete" ? true : false}
-          onChange={(e) => dispatch({ ...state, name: e.target.value })}
+          onChange={(e) => dispatchCategoryVar({ ...state, name: e.target.value })}
         />
         <button onClick={() => handlerMutationSuplier()}>{state.type}</button>
       </div>
