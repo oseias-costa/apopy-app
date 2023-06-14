@@ -22,10 +22,10 @@ export const ProductsMutate = () => {
       createProduct({
         variables: {
           productInput: {
-            name: "",
-            category: "",
-            subcategory: "",
-            suplier: "",
+            name: itemSelected.product,
+            category: itemSelected.category,
+            subcategory: itemSelected.subcategory,
+            suplier: itemSelected.suplier,
             userId: "6451a787de4c08d54ed8da35",
           },
         },
@@ -39,7 +39,15 @@ export const ProductsMutate = () => {
         itemSelected={itemSelected}
         setItemSelected={setItemSelected}
       />
-      <input type="text" />
+      <input
+        type="text"
+        onChange={(e) =>
+          setItemSelected({
+            ...itemSelected,
+            product: e.target.value,
+          })
+        }
+      />
       <button onClick={() => handleMutateProduct()}>Create</button>
       <button onClick={() => dispatchProductVar(initialValue)}>Desfazer</button>
     </div>

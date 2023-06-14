@@ -1,10 +1,8 @@
-import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { CATEGORIES } from "../../../queries/categories";
 import { SUPLIERS } from "../../../queries/supliers";
 
-export const ProductForm = ({itemSelected, setItemSelected}) => {
-
+export const ProductForm = ({ itemSelected, setItemSelected }) => {
   const { data } = useQuery(CATEGORIES, {
     variables: {
       userId: "6451a787de4c08d54ed8da35",
@@ -19,6 +17,7 @@ export const ProductForm = ({itemSelected, setItemSelected}) => {
         setItemSelected({ ...itemSelected, category: e.target.value })
       }
     >
+      <option>Selecione</option>
       {data?.categories.map((item) => (
         <option key={item.name} value={item.name}>
           {item.name}
@@ -39,9 +38,18 @@ export const ProductForm = ({itemSelected, setItemSelected}) => {
   );
 
   const subcategorySelect = itemSelected.category !== "" && (
-    <select>
+    <select
+      onChange={(e) =>
+        setItemSelected({ ...itemSelected, subcategory: e.target.value })
+      }
+    >
+      <option>Selecione</option>
       {categorySelected[0].subcategory.map((item: string) => {
-        return <option>{item}</option>;
+        return (
+          <option key={item} value={item}>
+            {item}
+          </option>
+        );
       })}
     </select>
   );
@@ -52,6 +60,7 @@ export const ProductForm = ({itemSelected, setItemSelected}) => {
         setItemSelected({ ...itemSelected, suplier: e.target.value })
       }
     >
+      <option>Selecione</option>
       {dataSuplier?.supliers.map((item) => {
         return (
           <option key={item.name} value={item.name}>
