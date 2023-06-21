@@ -69,11 +69,11 @@ export const ProductsMutate = () => {
       updateProduct({
         variables: {
           productEdit: {
-            _id: itemSelected._id,
-            name: itemSelected.product,
-            category: itemSelected.category,
-            subcategory: itemSelected.subcategory,
-            suplier: itemSelected.suplier
+            _id: stateProduct._id,
+            name: stateProduct.name,
+            category: stateProduct.category,
+            subcategory: stateProduct.subcategory,
+            suplier: stateProduct.suplier
           }
         }
       })
