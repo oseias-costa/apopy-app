@@ -1,13 +1,45 @@
 import { useState } from "react";
-import { useMutation, useReactiveVar } from "@apollo/client";
-import { CREATE_PRODUCT } from "../../../queries/products";
+import { gql, useMutation, useReactiveVar } from "@apollo/client";
+import { CREATE_PRODUCT, UPDATE_PRODUCT } from "../../../queries/products";
 import { dispatchProductVar, initialValue } from "./productVar";
 import { ProductForm } from "./ProductForm";
+import { client } from "../../../main";
 
 export const ProductsMutate = () => {
-  const [createProduct] = useMutation(CREATE_PRODUCT);
+  const [createProduct] = useMutation(CREATE_PRODUCT, {
+    update: (cache, { data }) => {
+      const cacheId: string | any = cache.identify(data.createProduct);
+      cache.modify({
+        fields: {
+          products: (existingFieldData, { toReference }) => {
+            return [...existingFieldData, toReference(cacheId)];
+          },
+        },
+      });
+    },
+  });
+
+  const [ updateProduct ] = useMutation(UPDATE_PRODUCT, {
+    update: (cache, { data: { updateProduct } }) => {
+      client.readFragment({
+        id: `Product:${updateProduct._id}`,
+        fragment: gql`
+          fragment MyProduct on Product {
+            _id
+            name
+            category
+            subcategory
+            suplier
+          }
+        `,
+      });
+    },
+  })
+
+
   const stateProduct = useReactiveVar(dispatchProductVar);
   const [itemSelected, setItemSelected] = useState({
+    _id: "",
     category: "",
     subcategory: "",
     suplier: "",
@@ -30,6 +62,21 @@ export const ProductsMutate = () => {
           },
         },
       });
+      dispatchProductVar(initialValue)
+    }
+
+    if (stateProduct.type === 'update') {
+      updateProduct({
+        variables: {
+          productEdit: {
+            _id: itemSelected._id,
+            name: itemSelected.product,
+            category: itemSelected.category,
+            subcategory: itemSelected.subcategory,
+            suplier: itemSelected.suplier
+          }
+        }
+      })
     }
   };
   return (

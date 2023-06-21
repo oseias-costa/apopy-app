@@ -25,3 +25,15 @@ export const CREATE_PRODUCT = gql`
         }
     }
 `
+
+export const UPDATE_PRODUCT = gql`
+    mutation UpdateProduct($productEdit: ProductEdit) {
+        updateProduct(productEdit: $productEdit) {
+            _id
+            name
+            category
+            subcategory
+            suplier
+        } 
+    }
+`
