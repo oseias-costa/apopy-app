@@ -1,8 +1,13 @@
-import { useQuery } from "@apollo/client";
+import { useQuery, useReactiveVar } from "@apollo/client";
 import { CATEGORIES } from "../../../queries/categories";
 import { SUPLIERS } from "../../../queries/supliers";
+import { dispatchProductVar } from "./productVar";
 
-export const ProductForm = ({ itemSelected, setItemSelected }) => {
+export const ProductForm = () => {
+  const stateProducts = useReactiveVar(dispatchProductVar)
+
+  console.log('esse state', stateProducts)
+
   const { data } = useQuery(CATEGORIES, {
     variables: {
       userId: "6451a787de4c08d54ed8da35",
@@ -14,7 +19,7 @@ export const ProductForm = ({ itemSelected, setItemSelected }) => {
   const categorySelect = (
     <select
       onChange={(e) =>
-        setItemSelected({ ...itemSelected, category: e.target.value })
+        dispatchProductVar({ ...stateProducts, category: e.target.value })
       }
     >
       <option>Selecione</option>
@@ -34,17 +39,17 @@ export const ProductForm = ({ itemSelected, setItemSelected }) => {
   };
 
   const categorySelected: [categoryItem] = data?.categories.filter(
-    (item) => item.name === itemSelected.category
+    (item) => item.name === stateProducts.category
   );
 
-  const subcategorySelect = itemSelected.category !== "" && (
+  const subcategorySelect = stateProducts.category !== "" && (
     <select
       onChange={(e) =>
-        setItemSelected({ ...itemSelected, subcategory: e.target.value })
+        dispatchProductVar({ ...stateProducts, subcategory: e.target.value })
       }
     >
       <option>Selecione</option>
-      {categorySelected[0].subcategory.map((item: string) => {
+      {categorySelected[0].subcategory?.map((item: string) => {
         return (
           <option key={item} value={item}>
             {item}
@@ -57,7 +62,7 @@ export const ProductForm = ({ itemSelected, setItemSelected }) => {
   const suplierSelect = (
     <select
       onChange={(e) =>
-        setItemSelected({ ...itemSelected, suplier: e.target.value })
+        dispatchProductVar({ ...stateProducts, suplier: e.target.value })
       }
     >
       <option>Selecione</option>

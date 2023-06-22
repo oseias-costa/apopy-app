@@ -11,6 +11,9 @@ export const ProductsPage = () => {
             _id: "",  
             name: "",  
             type: "create",  
+            subcategory: "",
+            category: "",
+            suplier: "",
             edit: 'Product', 
             openModal: true
         })}>Create Product</button>

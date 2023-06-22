@@ -1,4 +1,3 @@
-import React from "react";
 import { useQuery } from "@apollo/client";
 import { PRODUCTS } from "../../../queries/products";
 import { dispatchProductVar } from "./productVar";

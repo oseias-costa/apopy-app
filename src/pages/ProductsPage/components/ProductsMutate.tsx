@@ -36,28 +36,17 @@ export const ProductsMutate = () => {
     },
   })
 
-
   const stateProduct = useReactiveVar(dispatchProductVar);
-  const [itemSelected, setItemSelected] = useState({
-    _id: "",
-    category: "",
-    subcategory: "",
-    suplier: "",
-    product: "",
-    newProduct: "",
-  });
-
-  console.log(itemSelected);
 
   const handleMutateProduct = () => {
     if (stateProduct.type === "create") {
       createProduct({
         variables: {
           productInput: {
-            name: itemSelected.product,
-            category: itemSelected.category,
-            subcategory: itemSelected.subcategory,
-            suplier: itemSelected.suplier,
+            name: stateProduct.name,
+            category: stateProduct.category,
+            subcategory: stateProduct.subcategory,
+            suplier: stateProduct.suplier,
             userId: "6451a787de4c08d54ed8da35",
           },
         },
@@ -82,16 +71,13 @@ export const ProductsMutate = () => {
   return (
     <div>
       <h2>{stateProduct.edit}</h2>
-      <ProductForm
-        itemSelected={itemSelected}
-        setItemSelected={setItemSelected}
-      />
+      <ProductForm />
       <input
         type="text"
         onChange={(e) =>
-          setItemSelected({
-            ...itemSelected,
-            product: e.target.value,
+          dispatchProductVar({
+            ...stateProduct,
+            name: e.target.value,
           })
         }
       />
