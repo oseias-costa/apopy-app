@@ -6,8 +6,6 @@ import { dispatchProductVar } from "./productVar";
 export const ProductForm = () => {
   const stateProducts = useReactiveVar(dispatchProductVar)
 
-  console.log('esse state', stateProducts)
-
   const { data } = useQuery(CATEGORIES, {
     variables: {
       userId: "6451a787de4c08d54ed8da35",
@@ -22,7 +20,7 @@ export const ProductForm = () => {
         dispatchProductVar({ ...stateProducts, category: e.target.value })
       }
     >
-      <option>Selecione</option>
+      <option>{stateProducts.category !== '' ? stateProducts.category: 'Selecione'}</option>
       {data?.categories.map((item) => (
         <option key={item.name} value={item.name}>
           {item.name}
@@ -48,7 +46,7 @@ export const ProductForm = () => {
         dispatchProductVar({ ...stateProducts, subcategory: e.target.value })
       }
     >
-      <option>Selecione</option>
+      <option>{stateProducts.subcategory !== '' ? stateProducts.subcategory: 'Selecione'}</option>
       {categorySelected[0].subcategory?.map((item: string) => {
         return (
           <option key={item} value={item}>
@@ -65,7 +63,7 @@ export const ProductForm = () => {
         dispatchProductVar({ ...stateProducts, suplier: e.target.value })
       }
     >
-      <option>Selecione</option>
+      <option>{stateProducts.suplier !== '' ? stateProducts.suplier: 'Selecione'}</option>
       {dataSuplier?.supliers.map((item) => {
         return (
           <option key={item.name} value={item.name}>

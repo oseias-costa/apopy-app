@@ -1,5 +1,5 @@
-import Login from "./pages/Login";
-import { Register } from "./pages/Register";
+import Login from "./pages/LoginPage/Login";
+import { Register } from "./pages/RegisterPage/Register";
 import { Root } from "./components/global/Root";
 import { CategoryPage } from "./pages/CategoryPage/CategoryPage";
 import { ProductsPage } from "./pages/ProductsPage/ProductsPage";

@@ -37,3 +37,11 @@ export const UPDATE_PRODUCT = gql`
         } 
     }
 `
+
+export const DELETE_PRODUCT = gql`
+    mutation DelectProduct($id: ID) {
+        deleteProduct(_id: $id) {
+            _id
+  }
+}
+`

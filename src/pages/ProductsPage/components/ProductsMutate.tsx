@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { gql, useMutation, useReactiveVar } from "@apollo/client";
-import { CREATE_PRODUCT, UPDATE_PRODUCT } from "../../../queries/products";
+import { CREATE_PRODUCT, DELETE_PRODUCT, UPDATE_PRODUCT } from "../../../queries/products";
 import { dispatchProductVar, initialValue } from "./productVar";
 import { ProductForm } from "./ProductForm";
 import { client } from "../../../main";
@@ -36,6 +36,16 @@ export const ProductsMutate = () => {
     },
   })
 
+  const [ deleteProduct ] = useMutation(DELETE_PRODUCT, {
+    update: (cache, { data: { deleteProduct } }) => {
+      const normalizedId = cache.identify({
+        _id: deleteProduct._id,
+        __typename: "Product",
+      });
+      cache.evict({ id: normalizedId });
+    },
+  });
+
   const stateProduct = useReactiveVar(dispatchProductVar);
 
   const handleMutateProduct = () => {
@@ -52,9 +62,7 @@ export const ProductsMutate = () => {
         },
       });
       dispatchProductVar(initialValue)
-    }
-
-    if (stateProduct.type === 'update') {
+    }  else if(stateProduct.type === 'update') {
       updateProduct({
         variables: {
           productEdit: {
@@ -66,6 +74,14 @@ export const ProductsMutate = () => {
           }
         }
       })
+      dispatchProductVar(initialValue)
+    } else {
+      deleteProduct({
+        variables:{
+          _id: stateProduct._id
+        }
+      })
+      dispatchProductVar(initialValue)
     }
   };
   return (
@@ -80,8 +96,9 @@ export const ProductsMutate = () => {
             name: e.target.value,
           })
         }
+        value={ stateProduct.name !== '' ? stateProduct.name : ''}
       />
-      <button onClick={() => handleMutateProduct()}>Create</button>
+      <button onClick={() => handleMutateProduct()}>{stateProduct.type}</button>
       <button onClick={() => dispatchProductVar(initialValue)}>Desfazer</button>
     </div>
   );

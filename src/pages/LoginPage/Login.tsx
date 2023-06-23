@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { LOGIN } from '../queries/loginUser.mutation'
+import { LOGIN } from '../../queries/loginUser.mutation'
 
 function Login() {
   const [ login, setLogin ] = useState({ email: "", password: "" });
